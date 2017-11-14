@@ -33,11 +33,11 @@ static CGFloat animationDuring = 0.7;
  *  @param contentDataSource 内容数据源
  *  @param tapBlock          点击的block
  *
- *  @return
+ *  @return 初始化的对象
  */
-- (id)initWithFrame:(CGRect)frame
-  contentDataSource:(NSArray <NSString *> *)contentDataSource
-           tapBlock:(SegmentTapBlock)tapBlock
+- (instancetype)initWithFrame:(CGRect)frame
+            contentDataSource:(NSArray <NSString *> *)contentDataSource
+                     tapBlock:(SegmentTapBlock)tapBlock
 {
     self = [super initWithFrame:frame];
     if ((self) && ([contentDataSource count] > 0))
@@ -79,16 +79,16 @@ static CGFloat animationDuring = 0.7;
  *
  *  构建界面
  *
- *  @param contentDataSource
+ *  @param contentDataSource 数据源
  */
 - (void)buildViewWithContentDataSource:(NSArray <NSString *> *)contentDataSource
 {
     //自我属性
-    self.backgroundColor = UIColorFromRGB(0xdbdbdb);
+    self.backgroundColor = [UIColor whiteColor];
     self.layer.masksToBounds = YES;
     
-    self.contentDefineWidth = self.width / contentDataSource.count;
-    CGFloat height = self.height;
+    self.contentDefineWidth = self.frame.size.width / contentDataSource.count;
+    CGFloat height = self.frame.size.height;
     self.contentArray = [NSMutableArray arrayWithCapacity:0];
     //标签
     [contentDataSource enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -97,12 +97,12 @@ static CGFloat animationDuring = 0.7;
         label.textAlignment = NSTextAlignmentCenter;
         if (idx == 0)
         {
-            label.textColor = UIColorFromRGB(0Xffffff);
+            label.textColor = [UIColor greenColor];
             self.currentLabel = label;
         }else{
-            label.textColor = UIColorFromRGB(0x000000);
+            label.textColor = [UIColor blackColor];
         }
-        label.font = [UIFont customSystemFontOfSize:16.0];
+        label.font = [UIFont systemFontOfSize:16.0];        
         label.text = obj;
         [self addSubview:label];
         [self.contentArray addObject:label];
@@ -111,7 +111,7 @@ static CGFloat animationDuring = 0.7;
     //指示器
     self.indexView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentDefineWidth, height)];
 //    self.indexView.center = CGPointMake(self.currentLabel.center.x, self.indexView.center.y);
-    self.indexView.backgroundColor = UIColorFromRGB(0XFF9203);
+    self.indexView.backgroundColor = [UIColor yellowColor];
     self.indexView.layer.masksToBounds = YES;
     [self addSubview:self.indexView];
     [self sendSubviewToBack:self.indexView];
@@ -129,7 +129,7 @@ static CGFloat animationDuring = 0.7;
  *
  *  点击事件
  *
- *  @param tapGestureRecognizer
+ *  @param tapGestureRecognizer 点击手势
  */
 - (void)tapClick:(UITapGestureRecognizer *)tapGestureRecognizer
 {
@@ -141,7 +141,7 @@ static CGFloat animationDuring = 0.7;
 /**
  跳转指定序号
 
- @param locationIndex 
+ @param locationIndex 序号
  */
 - (void)goToIndex:(NSInteger)locationIndex
 {
@@ -152,8 +152,8 @@ static CGFloat animationDuring = 0.7;
             __weak typeof(self) weakSelf = self;
             self.tapBlock(locationIndex, ^{
                 UILabel *goalLabel = [weakSelf.contentArray objectAtIndex:locationIndex];
-                weakSelf.currentLabel.textColor = UIColorFromRGB(0x000000);
-                goalLabel.textColor = UIColorFromRGB(0Xffffff);
+                weakSelf.currentLabel.textColor = [UIColor blackColor];
+                goalLabel.textColor = [UIColor whiteColor];
                 weakSelf.currentLabel = goalLabel;
                 [UIView animateWithDuration:animationDuring
                                       delay:0

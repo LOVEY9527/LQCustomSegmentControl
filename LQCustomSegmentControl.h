@@ -28,10 +28,10 @@ typedef void(^SegmentTapBlock)(NSInteger tapIndex, void(^completeBlock)());
  *  @param contentDataSource 内容数据源
  *  @param tapBlock          点击的block
  *
- *  @return
+ *  @return 初始化的对象
  */
-- (id)initWithFrame:(CGRect)frame
-  contentDataSource:(NSArray <NSString *> *)contentDataSource
-           tapBlock:(SegmentTapBlock)tapBlock;
+- (instancetype)initWithFrame:(CGRect)frame
+            contentDataSource:(NSArray <NSString *> *)contentDataSource
+                     tapBlock:(SegmentTapBlock)tapBlock;
 
 @end
